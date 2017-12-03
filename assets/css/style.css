@@ -1,5 +1,8 @@
+body{
+    background: #FAFAFA;
+}
 .lead{
-    font-size: 1.3em;
+    font-size: 1.1em;
     font-family: 'Barlow Condensed', sans-serif;
 }
 
@@ -17,4 +20,61 @@
 #instructions{
     display: none;
     padding: 10px;
+}
+
+.results{
+    border: 1px solid #aaa;
+    padding: 5px;
+    margin-top: 30px;
+}
+#questionsRemaining, #correctAnswers, #wrongAnswers, #secondsRemaining{
+    font-size: 3em;
+    font-weight: bold;
+}
+
+#questionsRemaining{
+    color: orange;
+}
+#secondsRemaining{
+    color:red;
+}
+
+.questions, .answerChoices{
+    font-size: 2em;
+    color: orange;
+    padding: 20px;
+    border: 1px solid #aaa; 
+}
+.questions{
+    margin-top: 10px;
+    border-bottom: 0;
+}
+
+#selectAnswer > li{
+    list-style: none;
+    background: rgb(168, 199, 218);
+    color: white;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    border: 1px solid rgb(168, 199, 218);
+}
+
+#selectAnswer > li:hover{
+    background: #F5F5F5;
+    color: grey;
+    border: 1px solid rgb(168, 199, 218);
+}
+#startGame{
+    background: green;
+    color: white;
+    padding: 10px 40px;
+    border: 1px solid white;
+    cursor: pointer;
+}
+
+#startGame:hover{
+    background: white;
+    color: green;
+    border: 1px solid green;
 }

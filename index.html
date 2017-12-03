@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>GBMahili Trivial Trivia</title>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
     <div class="container">
 
         <div class="row lead">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-8 col-md-offset-2">
                 <h1 class="text-center">GBMahili Trivial Trivia</h1>
                 <div id="show-instructions" class="text-center">Show/Hide Instructions</div>
                 <div id="instructions">            
@@ -46,41 +46,48 @@
         </div>
 
         <div class="row results text-center">
-            <div class="col-md-3">
+            <div class="col-xs-3">
                 <span>Questions Remaining</span><br>
                 <span id="questionsRemaining">15</span>
             </div>
-            <div class="col-md-3">
+            <div class="col-xs-3">
                 <span>Correct Answers</span>
                 <br>
                 <span id="correctAnswers">0</span>
             </div>
-            <div class="col-md-3">
+            <div class="col-xs-3">
                 <span>Wrong Answers</span>
                 <br>
                 <span id="wrongAnswers">0</span>
             </div>
-            <div class="col-md-3">
-                <span>Timer</span>
+            <div class="col-xs-3">
+                <span>Seconds Remaining</span>
                 <br>
-                <span id="timer">0</span> Seconds Remaining
+                <span id="secondsRemaining">0</span>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-md-12 questions text-center">
+            <div class="col-md-12 questions text-center hidden">
                 Who is the president of D.R.Congo?
             </div>
             <div class="col-md-12 answerChoices text-center">
-
-                <ul id="selectAnswer">
-                    <li>Kabila</li>
-                    <li>Kagame</li>
-                    <li>Museveni</li>
-                    <li>Biya</li>
-                </ul>
-
+                <div class="col-md-8 col-md-offset-2">
+                    <ul id="selectAnswer" class="hidden">
+                        <li>Kabila</li>
+                        <li>Kagame</li>
+                        <li>Museveni</li>
+                        <li>Biya</li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <span id="startGame">Start Game</span>
+                    </div>
+                </div>
+                
             </div>
+            
         </div>
 
     </div>
