@@ -49,7 +49,9 @@ body{
     margin-top: 10px;
     border-bottom: 0;
 }
-
+ul#selectAnswer{
+    padding-left: 0;
+}
 #selectAnswer > li{
     list-style: none;
     background: rgb(168, 199, 218);

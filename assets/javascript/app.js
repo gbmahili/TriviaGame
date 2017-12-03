@@ -48,11 +48,11 @@ $(document).ready(function () {
 
 
                     //Wait for 5 seconds then reset the timer and start over
-                    //gbmTrivia.secondsRemaining = 10;
                     var wait5seconds = setTimeout(function () {
+                        //Set the remaining seconds back to 30
                         gbmTrivia.secondsRemaining = 10;
+                        //Reduce the remaining number of questions
                         gbmTrivia.questionsRemaining--;
-
                         //Show the Wining or losing message
                         $("#questionsRemaining").text(gbmTrivia.questionsRemaining);
                     }, 6000);
