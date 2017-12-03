@@ -68,7 +68,7 @@ ul#selectAnswer{
     border: 1px solid rgb(168, 199, 218);
 }
 #startGame{
-    background: green;
+    background: #009688;
     color: white;
     padding: 10px 40px;
     border: 1px solid white;
@@ -77,6 +77,6 @@ ul#selectAnswer{
 
 #startGame:hover{
     background: white;
-    color: green;
-    border: 1px solid green;
+    color: #009688;
+    border: 1px solid #009688;
 }
