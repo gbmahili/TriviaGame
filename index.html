@@ -19,28 +19,67 @@
     <div class="container">
 
         <div class="row lead">
+            <div class="col-md-6 col-md-offset-3">
+                <h1 class="text-center">GBMahili Trivial Trivia</h1>
+                <div id="show-instructions" class="text-center">Show/Hide Instructions</div>
+                <div id="instructions">            
+                    <p>This trivia game shows only one question until the player answers it or their time runs out. If the player selects the correct
+                    answer, a screen congratulating them for choosing the right option shows up. <br>
+                    After a few seconds, the next question displays without user input. <br><br>
+                    The scenario is similar for wrong answers and time-outs. </p>
+                    <ul>
+                        <li>
+                            If the player runs out of time, the player is informed that time's up and the correct answer is displayed, wait a few
+                            seconds, then the next question shows up.
+                        </li>
+                        <li>
+                            If the player chooses the wrong answer, the player is informed that they selected the wrong option and then the correct
+                            answer is displayed, wait a few seconds, then the next question shows up.
+                        </li>
+                    </ul>
+                    <p>
+                        On the final screen, the number of correct answers is displayed, incorrect answers, and an option to restart the game (without
+                        reloading the page).
+                    </p>
+                </div>
+            </div>
+        </div>
 
-            <h1>GBMahili Trivial Trivia</h1>
-            <div id="show-instructions">Show/Hide Instructions</div>
-            <div id="instructions">            
-                <p>This trivia game shows only one question until the player answers it or their time runs out. If the player selects the correct
-                answer, a screen congratulating them for choosing the right option shows up. <br>
-                After a few seconds, the next question displays without user input. <br><br>
-                The scenario is similar for wrong answers and time-outs. </p>
-                <ul>
-                    <li>
-                        If the player runs out of time, the player is informed that time's up and the correct answer is displayed, wait a few
-                        seconds, then the next question shows up.
-                    </li>
-                    <li>
-                        If the player chooses the wrong answer, the player is informed that they selected the wrong option and then the correct
-                        answer is displayed, wait a few seconds, then the next question shows up.
-                    </li>
+        <div class="row results text-center">
+            <div class="col-md-3">
+                <span>Questions Remaining</span><br>
+                <span id="questionsRemaining">15</span>
+            </div>
+            <div class="col-md-3">
+                <span>Correct Answers</span>
+                <br>
+                <span id="correctAnswers">0</span>
+            </div>
+            <div class="col-md-3">
+                <span>Wrong Answers</span>
+                <br>
+                <span id="wrongAnswers">0</span>
+            </div>
+            <div class="col-md-3">
+                <span>Timer</span>
+                <br>
+                <span id="timer">0</span> Seconds Remaining
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 questions text-center">
+                Who is the president of D.R.Congo?
+            </div>
+            <div class="col-md-12 answerChoices text-center">
+
+                <ul id="selectAnswer">
+                    <li>Kabila</li>
+                    <li>Kagame</li>
+                    <li>Museveni</li>
+                    <li>Biya</li>
                 </ul>
-                <p>
-                    On the final screen, the number of correct answers is displayed, incorrect answers, and an option to restart the game (without
-                    reloading the page).
-                </p>
+
             </div>
         </div>
 
