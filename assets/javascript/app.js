@@ -3,7 +3,8 @@ $(document).ready(function () {
     
 
     var gbmTrivia = {
-        secondsRemaining : 30,
+        secondsRemaining : 10,
+        questionsRemaining: 4,
         //Show or Hide instruction when the button is clicked
         showHideInstructions : function(){            
             $('#instructions').slideToggle("fast");        
@@ -33,9 +34,9 @@ $(document).ready(function () {
                         $("#secondsRemaining").text(gbmTrivia.secondsRemaining--);
                     }
                 }
+                //Check if the remaining question is zero
                 if (gbmTrivia.secondsRemaining == 0){
-
-                    //Show the Wining or losing message
+                    
 
                     //Show the winning gif
 
@@ -45,10 +46,15 @@ $(document).ready(function () {
 
                     //Update the number of questions remaining
 
+
                     //Wait for 5 seconds then reset the timer and start over
                     //gbmTrivia.secondsRemaining = 10;
                     var wait5seconds = setTimeout(function () {
-                        gbmTrivia.secondsRemaining = 30;
+                        gbmTrivia.secondsRemaining = 10;
+                        gbmTrivia.questionsRemaining--;
+
+                        //Show the Wining or losing message
+                        $("#questionsRemaining").text(gbmTrivia.questionsRemaining);
                     }, 6000);
                     
                 }
