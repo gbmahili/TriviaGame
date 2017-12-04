@@ -80,3 +80,37 @@ ul#selectAnswer{
     color: #009688;
     border: 1px solid #009688;
 }
+
+@media only screen and (max-width: 500px) {
+    body{
+        background: #F5F5F5;
+    }
+    #selectAnswer > li{
+        list-style: none;
+        background: rgb(168, 199, 218);
+        color: white;
+        padding: 2px;
+        margin: 2px;
+        cursor: pointer;
+        border: 1px solid rgb(168, 199, 218);
+        font-size: 0.8em;
+    }
+    #questionsRemaining, #correctAnswers, #wrongAnswers, #secondsRemaining{
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+    span#startGame{
+        background: #009688;
+        color: white;
+        padding: 3px 15px;
+        border: 1px solid white;
+        cursor: pointer;
+        font-size: 0.8em;
+    }
+    #selectAnswer > li{
+        font-size: 0.8em;
+    }
+    .questions{
+        font-size: 1.3em;
+    }
+}
