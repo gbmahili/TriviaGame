@@ -1,37 +1,35 @@
 $(document).ready(function () {
 
     var questionsList= [
-        ["Who is the president of D.R.Congo?", "Joseph Kabila", ["Paul Kagame", "Paul Biya", "Yoweri Musevini", "Baraka Mahili"]],
+        ["Who is the president of D.R.Congo?", "Joseph Kabila", ["Paul Kagame", "Paul Biya", "Joseph Kabila", "Baraka Mahili"]],
         ["Which month does Winter officially ends in the USA?", "March", ["May", "December", "March", "August"]],
         ["Which popular Disney movie featured the song 'Circle of Life'?", "The Lion King", ["Aladin", "Hercules", "Mulan", "The Lion King"]],
         ["What is the capital of the North-Kivu region in the D.R.Congo?", "Goma", ["Butembo", "Goma", "Kinshasa", "Beni"]]
     ];
-    //Create a random number from the list of questions
-    var randomNumber = Math.floor(Math.random() * questionsList.length) + 1;
-    //Pick random question
-    var randomQuestion = questionsList[randomNumber];
-    console.log(randomQuestion[0]);
+    var selectedAnswer;
 
     var gbmTrivia = {
         //Number of seconds remaining
-        secondsRemaining : 10,
+        secondsRemaining : 5,
         //Number of questions in the game
-        questionsRemaining: 4,        
+        questionsRemaining: 4,
+        wins: 0,
+        losses: 0,        
         //Show or Hide instruction when the button is clicked
         showHideInstructions : function(){            
             $('#instructions').slideToggle("fast");        
         }, 
-        startGame : function () {
+        startGame: () => {   
             //Show First Trivia question/answer
             $(".questions, #selectAnswer").removeClass("hidden");
             //Hide the Start Game Button
             $("#startGame").hide();
-
-            //Start the second count:
-            gbmTrivia.startSecondCounter();
+            //Populate the question
             gbmTrivia.populateQuestion();
+            //Start the second count:
+            gbmTrivia.startSecondCounter();           
         },
-        startSecondCounter : function () {
+        startSecondCounter: () => {   
             //Start the second counter
             var secondsInterval = setInterval(function () {
                 //Check if conds are greater than 1
@@ -56,51 +54,93 @@ $(document).ready(function () {
                     //Show other questions
 
                     //Update the number of questions remaining
-
+                    
                     //Wait for 5 seconds then reset the timer and start over
                     var wait5seconds = setTimeout(function () {
+                        //Update wins or loses
+                        gbmTrivia.calculateWinsLosses();
                         //Call the NextQuestion function
                         gbmTrivia.goToNextQuestion();
+                        if (gbmTrivia.wins + gbmTrivia.losses == 4){
+                            $("ul").empty();
+                            $("#startGame").show();
+                            $("#startGame").text("Start Over?");
+                            $("#questionsRemaining").text("0");
+                        }
                     }, 6000);                    
                 }
                 
             }, 1000);
                    
         },
-        goToNextQuestion : function(){
-            if (gbmTrivia.questionsRemaining > 0){            
+        goToNextQuestion: () => {            
+            //console.log("Clicked");
+            if (gbmTrivia.questionsRemaining >= 2){            
                 //Set the remaining seconds back to 30
-                gbmTrivia.secondsRemaining = 10;
+                gbmTrivia.secondsRemaining = 5;
                 //Reduce the remaining number of questions
                 gbmTrivia.questionsRemaining--;
                 //Show the Wining or losing message
                 $("#questionsRemaining").text(gbmTrivia.questionsRemaining);
                 //Show the Correct Answer
                 //$("#correctAnswers").text(gbmTrivia.questionsRemaining);
+                gbmTrivia.populateQuestion();
             }
         },
-        populateQuestion : () =>{
+        populateQuestion : () =>{            
+            //Create the random number
+            randomNumber = Math.floor(Math.random() * questionsList.length-1) + 1;
+            //Create the random question
+            randomQuestion = questionsList[randomNumber];
             //Set the questions field to a random question
             $(".questions").text(randomQuestion[0]);
             //Loop through a list of avaible answer choices
+            $("ul").empty();
             for (let i = 0; i < randomQuestion[2].length; i++) {
                 //Set the answer from the list questions 3rd element
-                const questionChoice = randomQuestion[2][i];
-                //Display the answers as a list
-                $("#selectAnswer").append("<li>" + questionChoice + "</li>");
+                const availableAnswers = randomQuestion[2][i];
+                //Display the answers as a list                
+                $("#selectAnswer").append("<li class='availableAnswers'>" + availableAnswers + "</li>");                
+            };
+            //When a user click on any list item:
+            $(".availableAnswers").click(function () {
+                if(gbmTrivia.questionsRemaining != 0){
+                    //Store the selected answer in a variable
+                    selectedAnswer = $(this).text();
+                    gbmTrivia.calculateWinsLosses();
+                    gbmTrivia.goToNextQuestion();
                 
+
+                }
+                
+            });            
+        },
+        calculateWinsLosses : () => {
+            //Check if user selected an answer
+            if (selectedAnswer != "") {
+                //Update Wins
+                if (selectedAnswer == randomQuestion[1]) {
+                    gbmTrivia.wins++;
+                    // console.log(wins);
+                    $("#correctAnswers").text(gbmTrivia.wins);
+                    console.log("Yes, it is: " + selectedAnswer + ". Your wins are now: " + gbmTrivia.wins);
+                }
+                //Update Losses
+                else {
+                    gbmTrivia.losses++;
+                    $("#wrongAnswers").text(gbmTrivia.losses);
+                    console.log("Looser - The correct answer is: " + randomQuestion[1] + ". Your Losses are now: " + gbmTrivia.losses);
+                }
+            }else{
+                selectedAnswer = "";
             }
             
         }
     }
-
-    //Update the question and choices
     
 
     //When a user clicks on 'Start Game':
     $("#startGame").click(gbmTrivia.startGame);
     //When a user clicks on 'Start Game':
     $('#show-instructions').click(gbmTrivia.showHideInstructions);
-    //When a user click on any list item
-    $("#selectAnswer > li").click(gbmTrivia.goToNextQuestion);
 });
