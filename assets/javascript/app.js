@@ -62,12 +62,22 @@ $(document).ready(function () {
                         //Call the NextQuestion function
                         gbmTrivia.goToNextQuestion();
                         if (gbmTrivia.wins + gbmTrivia.losses == 4){
+                            //Remove question and available answers
                             $("ul").empty();
-                            $("#questionsRemaining").text("0");
-                            $("#startOver").removeClass("hidden");
                             $(".questions").text("");
-                            gbmTrivia.reset();
-                            clearInterval(secondsInterval);
+                            $("#questionsRemaining").text("0");                            
+                            //Wait for 10 seconds to reset the game
+                            $(".waitingNextGame").removeClass("hidden");
+                            gbmTrivia.countDownFromTen();
+                            
+                            setTimeout(() => {
+                                $(".waitingNextGame").addClass("hidden");
+                                gbmTrivia.reset();
+                                clearInterval(secondsInterval);
+                                clearInterval(waitFor10Seconds);
+                                $("#startOver").removeClass("hidden");
+                            }, 10000);
+                            
                         }
                     }, 6000);                    
                 }
@@ -155,6 +165,18 @@ $(document).ready(function () {
             gbmTrivia.goToNextQuestion();
             //Start the game
             gbmTrivia.startGame();
+            $(".waitingNextGame").addClass("hidden");
+        }, 
+        countDownFromTen : () => {
+            var waiting = 10;
+            waitFor10Seconds = setInterval(function () {
+                if(waiting < 10){
+                    $(".waitingNextGame").html(`Your scores are in the top bar. <br>You can start another game in... 0${waiting--}`);
+                }else{
+                    $(".waitingNextGame").html(`Your scores are in the top bar. <br>You can start another game in... ${waiting--}`);
+                }
+                
+            }, 1000);
         }
     }
     

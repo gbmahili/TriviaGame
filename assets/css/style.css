@@ -84,6 +84,11 @@ ul#selectAnswer{
     border: 1px solid #009688;
 }
 
+.waitingNextGame{
+    font-size: 1.2em;
+    color: #009688;
+}
+
 @media only screen and (max-width: 500px) {
     body{
         background: #F5F5F5;
