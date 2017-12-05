@@ -63,9 +63,11 @@ $(document).ready(function () {
                         gbmTrivia.goToNextQuestion();
                         if (gbmTrivia.wins + gbmTrivia.losses == 4){
                             $("ul").empty();
-                            $("#startGame").show();
-                            $("#startGame").text("Start Over?");
                             $("#questionsRemaining").text("0");
+                            $("#startOver").removeClass("hidden");
+                            $(".questions").text("");
+                            gbmTrivia.reset();
+                            clearInterval(secondsInterval);
                         }
                     }, 6000);                    
                 }
@@ -83,7 +85,7 @@ $(document).ready(function () {
                 //Show the Wining or losing message
                 $("#questionsRemaining").text(gbmTrivia.questionsRemaining);
                 //Show the Correct Answer
-                //$("#correctAnswers").text(gbmTrivia.questionsRemaining);
+                //Call the next question                
                 gbmTrivia.populateQuestion();
             }
         },
@@ -107,10 +109,10 @@ $(document).ready(function () {
                 if(gbmTrivia.questionsRemaining != 0){
                     //Store the selected answer in a variable
                     selectedAnswer = $(this).text();
+                    //Calculate the wins or loses
                     gbmTrivia.calculateWinsLosses();
+                    //Go to the next question
                     gbmTrivia.goToNextQuestion();
-                
-
                 }
                 
             });            
@@ -135,12 +137,33 @@ $(document).ready(function () {
                 selectedAnswer = "";
             }
             
+        }, 
+        reset : () => {
+            console.log("reset started");
+            gbmTrivia.questionsRemaining = 5;
+            $("#questionsRemaining").text("4");
+            gbmTrivia.wins = 0;
+            $("#correctAnswers").text(gbmTrivia.wins);
+            gbmTrivia.losses = 0;
+            $("#wrongAnswers").text(gbmTrivia.losses);
+        }, 
+        startOver : () => {
+            console.log("Game Restarted");
+            //Hide the Start Game Button
+            $("#startOver").addClass("hidden");
+            //Put the next question in queue
+            gbmTrivia.goToNextQuestion();
+            //Start the game
+            gbmTrivia.startGame();
         }
     }
     
 
     //When a user clicks on 'Start Game':
     $("#startGame").click(gbmTrivia.startGame);
+    //Start Over:
+    $("#startOver").click(gbmTrivia.startOver);
     //When a user clicks on 'Start Game':
     $('#show-instructions').click(gbmTrivia.showHideInstructions);
+    
 });
