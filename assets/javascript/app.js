@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     var gbmTrivia = {
         //Number of seconds remaining
-        secondsRemaining : 5,
+        secondsRemaining : 15,
         //Number of questions in the game
         questionsRemaining: 4,
         wins: 0,
@@ -31,7 +31,7 @@ $(document).ready(function () {
         },
         startSecondCounter: () => {   
             //Start the second counter
-            var secondsInterval = setInterval(function () {
+            secondsInterval = setInterval(function () {
                 //Check if conds are greater than 1
                 if(gbmTrivia.secondsRemaining >= 0){
                     //Reduce the seconds remaining:
@@ -54,13 +54,16 @@ $(document).ready(function () {
                     //Show other questions
 
                     //Update the number of questions remaining
+                    $("ul").empty();
+                    $("ul").text("You selected nothing, the correct answer is: " + randomQuestion[1]);
                     
                     //Wait for 5 seconds then reset the timer and start over
-                    var wait5seconds = setTimeout(function () {
+                    wait5seconds = setTimeout(function () {                    
                         //Update wins or loses
                         gbmTrivia.calculateWinsLosses();
                         //Call the NextQuestion function
                         gbmTrivia.goToNextQuestion();
+
                         if (gbmTrivia.wins + gbmTrivia.losses == 4){
                             //Remove question and available answers
                             $("ul").empty();
@@ -76,10 +79,9 @@ $(document).ready(function () {
                                 clearInterval(secondsInterval);
                                 clearInterval(waitFor10Seconds);
                                 $("#startOver").removeClass("hidden");
-                            }, 10000);
-                            
+                            }, 10000);                    
                         }
-                    }, 6000);                    
+                    }, 5000);                    
                 }
                 
             }, 1000);
@@ -89,12 +91,11 @@ $(document).ready(function () {
             //console.log("Clicked");
             if (gbmTrivia.questionsRemaining >= 2){            
                 //Set the remaining seconds back to 30
-                gbmTrivia.secondsRemaining = 5;
+                gbmTrivia.secondsRemaining = 15;
                 //Reduce the remaining number of questions
                 gbmTrivia.questionsRemaining--;
                 //Show the Wining or losing message
                 $("#questionsRemaining").text(gbmTrivia.questionsRemaining);
-                //Show the Correct Answer
                 //Call the next question                
                 gbmTrivia.populateQuestion();
             }
@@ -116,15 +117,79 @@ $(document).ready(function () {
             };
             //When a user click on any list item:
             $(".availableAnswers").click(function () {
-                if(gbmTrivia.questionsRemaining != 0){
+
+                if (gbmTrivia.questionsRemaining != 0 ) {
                     //Store the selected answer in a variable
                     selectedAnswer = $(this).text();
                     //Calculate the wins or loses
                     gbmTrivia.calculateWinsLosses();
-                    //Go to the next question
-                    gbmTrivia.goToNextQuestion();
+                    //wait for 5 seconds then Go to the next question
+                    //Clear the UL and show the message:
+                    $("ul").empty();
+                    $("#secondsRemaining").text("00");
+                    clearInterval(secondsInterval);
+                    if (selectedAnswer == randomQuestion[1]) {
+                        $("ul").text("Yes, it is: " + selectedAnswer );
+                    }
+                    //Update Losses
+                    else {
+                        $("ul").text("NOPE! The correct answer is: " + randomQuestion[1]);
+                    }
+                    
+                    setTimeout(() => {                        
+                        gbmTrivia.goToNextQuestion();
+                        gbmTrivia.startSecondCounter();
+
+                        console.log("Current Total: " + (gbmTrivia.wins + gbmTrivia.losses));
+
+                        if (gbmTrivia.wins + gbmTrivia.losses == 4) {
+                            clearInterval(secondsInterval);
+                            gbmTrivia.reset();
+                            $("ul").empty();
+                            gbmTrivia.countDownFromTen();
+
+
+                            //$("#questionsRemaining").text("0");                  
+
+                            $(".questions").text("");
+                            $(".waitingNextGame").removeClass("hidden");
+                            // $("#secondsRemaining").text("00");
+
+                            setTimeout(() => {
+                                $(".waitingNextGame").addClass("hidden");
+                                clearInterval(secondsInterval);
+                                clearInterval(waitFor10Seconds);
+                                $("#startOver").removeClass("hidden");
+                            }, 10000);
+                        }
+                        
+
+                    }, 5000);
+                    
                 }
-                
+
+                // console.log("Current Total: "+ (gbmTrivia.wins + gbmTrivia.losses));
+
+                // if (gbmTrivia.wins + gbmTrivia.losses == 4) {
+                //     clearInterval(secondsInterval);
+                //     gbmTrivia.reset();
+                //     $("ul").empty();
+                //     gbmTrivia.countDownFromTen();
+
+                    
+                //     //$("#questionsRemaining").text("0");                  
+                    
+                //     $(".questions").text("");                    
+                //     $(".waitingNextGame").removeClass("hidden");
+                //     // $("#secondsRemaining").text("00");
+                    
+                //     setTimeout(() => {                        
+                //         $(".waitingNextGame").addClass("hidden");
+                //         clearInterval(secondsInterval);
+                //         clearInterval(waitFor10Seconds);
+                //         $("#startOver").removeClass("hidden");
+                //     }, 10000);
+                // }
             });            
         },
         calculateWinsLosses : () => {
@@ -134,13 +199,13 @@ $(document).ready(function () {
                 if (selectedAnswer == randomQuestion[1]) {
                     gbmTrivia.wins++;
                     // console.log(wins);
-                    $("#correctAnswers").text(gbmTrivia.wins);
+                    $("#correctAnswers").text(gbmTrivia.wins);                  
                     console.log("Yes, it is: " + selectedAnswer + ". Your wins are now: " + gbmTrivia.wins);
                 }
                 //Update Losses
                 else {
                     gbmTrivia.losses++;
-                    $("#wrongAnswers").text(gbmTrivia.losses);
+                    $("#wrongAnswers").text(gbmTrivia.losses);                    
                     console.log("Looser - The correct answer is: " + randomQuestion[1] + ". Your Losses are now: " + gbmTrivia.losses);
                 }
             }else{
@@ -171,9 +236,9 @@ $(document).ready(function () {
             var waiting = 10;
             waitFor10Seconds = setInterval(function () {
                 if(waiting < 10){
-                    $(".waitingNextGame").html(`Your scores are in the top bar. <br>You can start another game in... 0${waiting--}`);
+                    $(".waitingNextGame").html(`You've reached the end of the game. <br>Your scores are in the top bar. <br>You can start another game in... 0${waiting--}`);
                 }else{
-                    $(".waitingNextGame").html(`Your scores are in the top bar. <br>You can start another game in... ${waiting--}`);
+                    $(".waitingNextGame").html(`You've reached the end of the game. <br>Your scores are in the top bar. <br>You can start another game in... ${waiting--}`);
                 }
                 
             }, 1000);
