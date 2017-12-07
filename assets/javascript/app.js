@@ -142,7 +142,7 @@ $(document).ready(function () {
                     setTimeout(() => {                        
                         gbmTrivia.goToNextQuestion();
                         gbmTrivia.startSecondCounter();
-                        selectedAnswer = "";
+                        
 
                         console.log("Current Total: " + (gbmTrivia.wins + gbmTrivia.losses));
 
