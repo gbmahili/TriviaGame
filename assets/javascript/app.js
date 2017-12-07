@@ -47,8 +47,14 @@ $(document).ready(function () {
                 //Check if the remaining question is zero
                 if (gbmTrivia.secondsRemaining == 0){
 
+                    setTimeout(() => {
+                        
+                    
+
                     $("ul").empty();
+                    
                     $("ul").text("You selected nothing, the correct answer is: " + randomQuestion[1]);
+                    }, 1000);
                     gbmTrivia.unanswered++;
                     console.log("Unanswered Count : " + gbmTrivia.unanswered);
                     
