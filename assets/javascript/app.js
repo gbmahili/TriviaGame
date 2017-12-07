@@ -14,7 +14,8 @@ $(document).ready(function () {
         //Number of questions in the game
         questionsRemaining: 4,
         wins: 0,
-        losses: 0,        
+        losses: 0,
+        unanswered: 0,        
         //Show or Hide instruction when the button is clicked
         showHideInstructions : function(){            
             $('#instructions').slideToggle("fast");        
@@ -56,6 +57,8 @@ $(document).ready(function () {
                     //Update the number of questions remaining
                     $("ul").empty();
                     $("ul").text("You selected nothing, the correct answer is: " + randomQuestion[1]);
+                    gbmTrivia.unanswered++;
+                    console.log("Unanswered Count : " + gbmTrivia.unanswered);
                     
                     //Wait for 5 seconds then reset the timer and start over
                     wait5seconds = setTimeout(function () {                    
@@ -71,7 +74,7 @@ $(document).ready(function () {
                             $("#questionsRemaining").text("0");                            
                             //Wait for 10 seconds to reset the game
                             $(".waitingNextGame").removeClass("hidden");
-                            gbmTrivia.countDownFromTen();
+                            gbmTrivia.countDownFromFifteen();
                             
                             setTimeout(() => {
                                 $(".waitingNextGame").addClass("hidden");
@@ -146,7 +149,7 @@ $(document).ready(function () {
                             clearInterval(secondsInterval);
                             gbmTrivia.reset();
                             $("ul").empty();
-                            gbmTrivia.countDownFromTen();
+                            gbmTrivia.countDownFromFifteen();
 
 
                             //$("#questionsRemaining").text("0");                  
@@ -174,7 +177,7 @@ $(document).ready(function () {
                 //     clearInterval(secondsInterval);
                 //     gbmTrivia.reset();
                 //     $("ul").empty();
-                //     gbmTrivia.countDownFromTen();
+                //     gbmTrivia.countDownFromFifteen();
 
                     
                 //     //$("#questionsRemaining").text("0");                  
@@ -216,6 +219,7 @@ $(document).ready(function () {
         reset : () => {
             console.log("reset started");
             gbmTrivia.questionsRemaining = 5;
+            gbmTrivia.unanswered = 0;
             $("#questionsRemaining").text("4");
             gbmTrivia.wins = 0;
             $("#correctAnswers").text(gbmTrivia.wins);
@@ -232,13 +236,13 @@ $(document).ready(function () {
             gbmTrivia.startGame();
             $(".waitingNextGame").addClass("hidden");
         }, 
-        countDownFromTen : () => {
-            var waiting = 10;
+        countDownFromFifteen : () => {
+            var waiting = 15;
             waitFor10Seconds = setInterval(function () {
                 if(waiting < 10){
-                    $(".waitingNextGame").html(`You've reached the end of the game. <br>Your scores are in the top bar. <br>You can start another game in... 0${waiting--}`);
+                    $(".waitingNextGame").html(`You've reached the end of the game. <br>Your scores are in the top bar. <br> You did not answer ${gbmTrivia.unanswered} question(s) so they are counted as wrong answers. You can start another game in... 0${waiting--}`);
                 }else{
-                    $(".waitingNextGame").html(`You've reached the end of the game. <br>Your scores are in the top bar. <br>You can start another game in... ${waiting--}`);
+                    $(".waitingNextGame").html(`You've reached the end of the game. <br>Your scores are in the top bar. <br> You did not answer ${gbmTrivia.unanswered} question(s) so they are counted as wrong answers. You can start another game in... ${waiting--}`);
                 }
                 
             }, 1000);
