@@ -1,3 +1,14 @@
+/* Full Background Image on the page */
+/* #bg { */
+  /* position: fixed; 
+  top: 0; 
+  left: 0;  */
+	
+  /* Preserve aspet ratio */
+  /* min-width: 100%;
+  min-height: 100%; */
+/* } */
+
 body{
     background: #FAFAFA;
 }

@@ -60,7 +60,7 @@ $(document).ready(function () {
                 //Add an alternative attribute with the Image Gif text
                 singleImage.attr("alt", "Image Gif");
                 //Append the umage to the Ul
-                $("ul").append(singleImage);
+                $("ul#selectAnswer").append(singleImage);
 
             });
 
@@ -84,9 +84,9 @@ $(document).ready(function () {
 
                     setTimeout(() => {
                     //Clear the list of available answer
-                    $("ul").empty(); 
+                    $("ul#selectAnswer").empty(); 
                     //Append the answer to the UL                   
-                    $("ul").append("<li class='displayCorrentAnswer'>You selected nothing, the correct answer is: " + randomQuestion[1] + "</li>");
+                    $("ul#selectAnswer").append("<li class='displayCorrentAnswer'>You selected nothing, the correct answer is: " + randomQuestion[1] + "</li>");
                         
                     //Update the queryTerm to loser
                     queryTerm = "loser"; 
