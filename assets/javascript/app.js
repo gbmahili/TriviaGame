@@ -53,6 +53,8 @@ $(document).ready(function () {
                 //Create a random number that will get our url from the array
                 singleImageUrl = Math.floor(Math.random() * imgUrls.length - 1) + 1;
                 console.log(singleImageUrl);
+                singleImage.addClass("img-responsive");
+                singleImage.css("margin","0 10px");
                 //Add a source attribute to the singleImage element with a value of the the random number image
                 singleImage.attr("src", imgUrls[singleImageUrl]);
                 //Add an alternative attribute with the Image Gif text
