@@ -96,8 +96,8 @@ ul#selectAnswer{
 img{
     width: 390px;
     height: 250px;
-    display: block;
-    margin: 0 auto;
+    /* display: block;
+    margin: 0 auto; */
 }
 
 @media only screen and (max-width: 500px) {
