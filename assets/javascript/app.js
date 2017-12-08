@@ -30,6 +30,39 @@ $(document).ready(function () {
             //Start the second count:
             gbmTrivia.startSecondCounter();           
         },
+        getGifImages : () => {
+            //Instantiate the queryTerm to be used based on wins or losses
+            queryTerm;  
+            //API Entry point url
+            var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + queryTerm + "&limit=5";
+            //Call the ajax method to process the gif then do something with it
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).done(function (response) {
+                //Store the array of losers images
+                var gifArray = response.data;
+                //Loop through the array and pick one image
+                imgUrls = [];
+                for (let i = 0; i < gifArray.length; i++) {
+                    imgUrls.push(gifArray[i].images.original.url);
+                }
+                //Create a tag to store our image
+                singleImage = $("<img>");
+
+                //Create a random number that will get our url from the array
+                singleImageUrl = Math.floor(Math.random() * imgUrls.length - 1) + 1;
+                console.log(singleImageUrl);
+                //Add a source attribute to the singleImage element with a value of the the random number image
+                singleImage.attr("src", imgUrls[singleImageUrl]);
+                //Add an alternative attribute with the Image Gif text
+                singleImage.attr("alt", "Image Gif");
+                //Append the umage to the Ul
+                $("ul").append(singleImage);
+
+            });
+
+        },
         startSecondCounter: () => {   
             //Start the second counter
             secondsInterval = setInterval(function () {
@@ -48,16 +81,22 @@ $(document).ready(function () {
                 if (gbmTrivia.secondsRemaining == 0){
 
                     setTimeout(() => {
+                    //Clear the list of available answer
+                    $("ul").empty(); 
+                    //Append the answer to the UL                   
+                    $("ul").append("<li class='displayCorrentAnswer'>You selected nothing, the correct answer is: " + randomQuestion[1] + "</li>");
                         
-                    
+                    //Update the queryTerm to loser
+                    queryTerm = "loser"; 
 
-                    $("ul").empty();
+                    //Call the getGifImages method
+                    gbmTrivia.getGifImages();
                     
-                    $("ul").text("You selected nothing, the correct answer is: " + randomQuestion[1]);
                     }, 1000);
+
+                    //Incremeent the answered count if nothing was selected
                     gbmTrivia.unanswered++;
-                    console.log("Unanswered Count : " + gbmTrivia.unanswered);
-                    
+
                     //Wait for 5 seconds then reset the timer and start over
                     wait5seconds = setTimeout(function () {                    
                         //Update wins or loses
@@ -130,12 +169,16 @@ $(document).ready(function () {
                     $("ul").empty();
                     $("#secondsRemaining").text("00");
                     clearInterval(secondsInterval);
-                    if (selectedAnswer == randomQuestion[1]) {
-                        $("ul").text("Yes, it is: " + selectedAnswer );                        
+                    if (selectedAnswer == randomQuestion[1]) {                        
+                        $("ul").append("<li class='displayCorrentAnswer'>Yes, it is: " + selectedAnswer + "</li>");
+                        queryTerm = "winner";
+                        gbmTrivia.getGifImages();                        
                     }
                     //Update Losses
                     else {
-                        $("ul").text("NOPE! The correct answer is: " + randomQuestion[1]);
+                        $("ul").append("<li class='displayCorrentAnswer'>NOPE! The correct answer is: " + randomQuestion[1] + "</li>");
+                        queryTerm = "loser"; 
+                        gbmTrivia.getGifImages(); 
                     }
                     
                     setTimeout(() => {                        
@@ -159,35 +202,11 @@ $(document).ready(function () {
                                 clearInterval(waitFor15Seconds);
                                 $("#startOver").removeClass("hidden");
                             }, 16000);
-                        }
-                        
+                        }                        
 
                     }, 5000);
                     
                 }
-
-                // console.log("Current Total: "+ (gbmTrivia.wins + gbmTrivia.losses));
-
-                // if (gbmTrivia.wins + gbmTrivia.losses == 4) {
-                //     clearInterval(secondsInterval);
-                //     gbmTrivia.reset();
-                //     $("ul").empty();
-                //     gbmTrivia.countDownFromFifteen();
-
-                    
-                //     //$("#questionsRemaining").text("0");                  
-                    
-                //     $(".questions").text("");                    
-                //     $(".waitingNextGame").removeClass("hidden");
-                //     // $("#secondsRemaining").text("00");
-                    
-                //     setTimeout(() => {                        
-                //         $(".waitingNextGame").addClass("hidden");
-                //         clearInterval(secondsInterval);
-                //         clearInterval(waitFor15Seconds);
-                //         $("#startOver").removeClass("hidden");
-                //     }, 10000);
-                // }
             });            
         },
         calculateWinsLosses : () => {
@@ -242,8 +261,7 @@ $(document).ready(function () {
                 
             }, 1000);
         }
-    }
-    
+    }    
 
     //When a user clicks on 'Start Game':
     $("#startGame").click(gbmTrivia.startGame);

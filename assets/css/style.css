@@ -85,8 +85,13 @@ ul#selectAnswer{
 }
 
 .waitingNextGame{
-    font-size: 1.2em;
+    font-size: 0.75em;
     color: #009688;
+}
+.displayCorrentAnswer{
+    font-size: 0.8em;
+    background: red;
+    color: white;
 }
 
 @media only screen and (max-width: 500px) {
